@@ -1,0 +1,37 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+
+<h1>All Transactions</h1>
+<a href="/transactions/add/">+ Add Transaction</a>
+
+<br><br>
+
+<table border="1">
+    <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Note</th>
+        <th>Actions</th>
+    </tr>
+    {% for t in transactions %}
+    <tr>
+        <td>{{ t.date }}</td>
+        <td>{{ t.category }}</td>
+        <td>{{ t.transaction_type }}</td>
+        <td>${{ t.amount }}</td>
+        <td>{{ t.note }}</td>
+        <td>
+            <a href="/transactions/edit/{{ t.pk }}/">Edit</a> |
+            <a href="/transactions/delete/{{ t.pk }}/">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6">No transactions yet.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
