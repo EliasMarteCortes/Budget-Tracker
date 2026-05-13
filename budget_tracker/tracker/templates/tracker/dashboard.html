@@ -1,0 +1,43 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+
+<h1>Dashboard</h1>
+
+<p>Total Income: ${{ total_income }}</p>
+<p>Total Expenses: ${{ total_expense }}</p>
+<p>Balance: ${{ balance }}</p>
+
+<h2>Recent Transactions</h2>
+<table border="1">
+    <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Note</th>
+    </tr>
+    {% for t in transactions %}
+    <tr>
+        <td>{{ t.date }}</td>
+        <td>{{ t.category }}</td>
+        <td>{{ t.transaction_type }}</td>
+        <td>${{ t.amount }}</td>
+        <td>{{ t.note }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5">No transactions yet.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Spending by Category</h2>
+<ul>
+    {% for ct in category_totals %}
+    <li>{{ ct.category__name }}: ${{ ct.total }}</li>
+    {% empty %}
+    <li>No expense data yet.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
