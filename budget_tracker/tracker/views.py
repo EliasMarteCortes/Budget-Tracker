@@ -36,3 +36,12 @@ def dashboard(request):
     }
 
     return render(request, 'tracker/dashboard.html', context)
+
+def transaction_list(request):
+    transactions = Transaction.objects.all()
+
+    context = {
+        'transactions': transactions,
+    }
+
+    return render(request, 'tracker/transaction_list.html', context)
