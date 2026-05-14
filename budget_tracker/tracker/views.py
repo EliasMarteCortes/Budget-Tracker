@@ -82,3 +82,16 @@ def edit_transaction(request, pk):
     }
 
     return render(request, 'tracker/transaction_form.html', context)
+
+def delete_transaction(request, pk):
+    transaction = Transaction.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        transaction.delete()
+        return redirect('transaction_list')
+
+    context = {
+        'object': transaction,
+    }
+
+    return render(request, 'tracker/delete_confirm.html', context)
