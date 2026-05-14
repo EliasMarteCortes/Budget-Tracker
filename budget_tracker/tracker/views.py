@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Sum
 from .models import Transaction
+from .forms import TransactionForm
 
 def dashboard(request):
     transactions = Transaction.objects.all()
@@ -45,3 +46,20 @@ def transaction_list(request):
     }
 
     return render(request, 'tracker/transaction_list.html', context)
+
+def add_transaction(request):
+    if request.method == 'POST':
+        form = TransactionForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('transaction_list')
+    else:
+        form = TransactionForm()
+
+    context = {
+        'form': form,
+        'title': 'Add Transaction',
+    }
+
+    return render(request, 'tracker/transaction_form.html', context)
