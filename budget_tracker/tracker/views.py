@@ -63,3 +63,22 @@ def add_transaction(request):
     }
 
     return render(request, 'tracker/transaction_form.html', context)
+
+def edit_transaction(request, pk):
+    transaction = Transaction.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        form = TransactionForm(request.POST, instance=transaction)
+
+        if form.is_valid():
+            form.save()
+            return redirect('transaction_list')
+    else:
+        form = TransactionForm(instance=transaction)
+
+    context = {
+        'form': form,
+        'title': 'Edit Transaction',
+    }
+
+    return render(request, 'tracker/transaction_form.html', context)
