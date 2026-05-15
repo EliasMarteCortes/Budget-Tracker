@@ -1,0 +1,24 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+
+<h1>Categories</h1>
+
+<h2>Add Category</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add</button>
+</form>
+
+<h2>Existing Categories</h2>
+<ul>
+    {% for cat in categories %}
+    <li>
+        {{ cat.name }} — <a href="/categories/delete/{{ cat.pk }}/">Delete</a>
+    </li>
+    {% empty %}
+    <li>No categories yet.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
