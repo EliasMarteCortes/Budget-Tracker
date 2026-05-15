@@ -114,3 +114,16 @@ def category_list(request):
     }
 
     return render(request, 'tracker/category_list.html', context)
+
+def delete_category(request, pk):
+    category = Category.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        category.delete()
+        return redirect('category_list')
+
+    context = {
+        'object': category,
+    }
+
+    return render(request, 'tracker/delete_confirm.html', context)
