@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Sum
-from .models import Transaction, Category
-from .forms import TransactionForm, CategoryForm
+from .models import Transaction, Category, Budget
+from .forms import TransactionForm, CategoryForm, BudgetForm
 
 def dashboard(request):
     transactions = Transaction.objects.all()
@@ -127,3 +127,22 @@ def delete_category(request, pk):
     }
 
     return render(request, 'tracker/delete_confirm.html', context)
+
+def budget_list(request):
+    if request.method == 'POST':
+        form = BudgetForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('budget_list')
+    else:
+        form = BudgetForm()
+
+    budgets = Budget.objects.all()
+
+    context = {
+        'budgets': budgets,
+        'form': form,
+    }
+
+    return render(request, 'tracker/budget_list.html', context)
