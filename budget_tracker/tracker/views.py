@@ -5,6 +5,7 @@ from .forms import TransactionForm, CategoryForm, BudgetForm
 
 def dashboard(request):
     transactions = Transaction.objects.all()
+    budgets = Budget.objects.all()
 
     total_income = (
         transactions
@@ -28,12 +29,34 @@ def dashboard(request):
         .order_by('-total')
     )
 
+    budget_status = []
+
+    for budget in budgets:
+        spent = (
+            transactions
+            .filter(
+                transaction_type='expense',
+                category=budget.category,
+                date__month=budget.month,
+                date__year=budget.year,
+            )
+            .aggregate(total=Sum('amount'))['total'] or 0
+        )
+
+        budget_status.append({
+            'category': budget.category.name,
+            'limit': budget.limit,
+            'spent': spent,
+            'over': spent > budget.limit,
+        })
+
     context = {
         'transactions': transactions[:10],
         'total_income': total_income,
         'total_expense': total_expense,
         'balance': balance,
         'category_totals': category_totals,
+        'budget_status': budget_status,
     }
 
     return render(request, 'tracker/dashboard.html', context)
