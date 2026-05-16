@@ -146,3 +146,16 @@ def budget_list(request):
     }
 
     return render(request, 'tracker/budget_list.html', context)
+
+def delete_budget(request, pk):
+    budget = Budget.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        budget.delete()
+        return redirect('budget_list')
+
+    context = {
+        'object': budget,
+    }
+
+    return render(request, 'tracker/delete_confirm.html', context)
