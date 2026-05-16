@@ -156,7 +156,11 @@ def budget_list(request):
         form = BudgetForm(request.POST)
 
         if form.is_valid():
-            form.save()
+            budget = form.save(commit=False)
+            date = form.cleaned_data['date']
+            budget.month = date.month
+            budget.year = date.year
+            budget.save()
             return redirect('budget_list')
     else:
         form = BudgetForm()
