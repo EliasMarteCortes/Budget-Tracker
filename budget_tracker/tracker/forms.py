@@ -31,3 +31,11 @@ class BudgetForm(forms.ModelForm):
     class Meta:
         model = Budget
         fields = ['category', 'limit', 'date']
+        
+    def clean_date(self):
+        date = self.cleaned_data['date']
+
+        if date.year < 2000:
+            raise forms.ValidationError('Year must be 2000 or later.')
+
+        return date
