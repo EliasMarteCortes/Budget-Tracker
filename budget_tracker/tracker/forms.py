@@ -10,6 +10,14 @@ class TransactionForm(forms.ModelForm):
             'note': forms.Textarea(attrs={'rows': 3}),
         }
 
+    def clean_category(self):
+        category = self.cleaned_data['category']
+
+        if category is None:
+            raise forms.ValidationError('Please select a category.')
+
+        return category
+
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
