@@ -18,26 +18,26 @@ expenses, and budget limits by category.
 ## Installation
 
 1. Clone the repository
-
+```
 git clone https://github.com/EliasMarteCortes/Budget-Tracker
 cd Budget-Tracker/budget_tracker/
-
+```
 2. Install Django
-
+```
 pip install django
-
+```
 3. Run migrations
-
+```
 python manage.py migrate
-
+```
 4. Start the server
-
+```
 python manage.py runserver
-
+```
 5. Open your browser and go to
-
+```
 http://127.0.0.1:8000/
-
+```
 ## Usage
 
 1. Go to Categories and add your spending categories (Food, Rent, etc.)
